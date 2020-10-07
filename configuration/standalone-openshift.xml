@@ -571,9 +571,6 @@
             <handlers>
                 <file name="welcome-content" path="${jboss.home.dir}/welcome-content"/>
             </handlers>
-            <connector name="https" protocol="HTTP/1.1" scheme="https" socket-binding="https" enabled="true" secure="true">
-                <ssl name="jboss7_ssl" key-alias="jboss73" password="changeit" certificate-key-file="/opt/eap/standalone/configuration/cert/keystore.jks" protocol="TLSv1"/>
-            </connector>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:webservices:2.0" statistics-enabled="${wildfly.webservices.statistics-enabled:${wildfly.statistics-enabled:false}}">
             <modify-wsdl-address>true</modify-wsdl-address>
@@ -585,6 +582,9 @@
                 </pre-handler-chain>
             </endpoint-config>
             <client-config name="Standard-Client-Config"/>
+            <connector name="https" protocol="HTTP/1.1" scheme="https" socket-binding="https" enabled="true" secure="true">
+                <ssl name="jboss7_ssl" key-alias="jboss73" password="changeit" certificate-key-file="/opt/eap/standalone/configuration/cert/keystore.jks" protocol="TLSv1"/>
+            </connector>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:weld:4.0"/>
     </profile>
