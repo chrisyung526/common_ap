@@ -582,9 +582,15 @@
                 </pre-handler-chain>
             </endpoint-config>
             <client-config name="Standard-Client-Config"/>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:web:1.1" default-virtual-server="default-host" native="false">
+            <connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http"/>
             <connector name="https" protocol="HTTP/1.1" scheme="https" socket-binding="https" enabled="true" secure="true">
                 <ssl name="jboss7_ssl" key-alias="jboss73" password="changeit" certificate-key-file="/opt/eap/standalone/configuration/cert/keystore.jks" protocol="TLSv1"/>
             </connector>
+            <virtual-server name="default-host" enable-welcome-root="true">
+                <alias name="localhost"/>
+            </virtual-server>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:weld:4.0"/>
     </profile>
