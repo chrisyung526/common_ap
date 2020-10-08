@@ -2,7 +2,6 @@
 
 <server xmlns="urn:jboss:domain:11.0">
     <extensions>
-        <extension module="org.jboss.as.clustering.infinispan"/>
         <extension module="org.jboss.as.connector"/>
         <extension module="org.jboss.as.deployment-scanner"/>
         <extension module="org.jboss.as.ee"/>
@@ -154,13 +153,6 @@
             <deployment-scanner path="deployments" relative-to="jboss.server.base.dir" scan-interval="5000" runtime-failure-causes-rollback="${jboss.deployment.scanner.rollback.on.failure:false}"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:discovery:1.0"/>
-        <subsystem xmlns="urn:jboss:domain:distributable-web:2.0" default-session-management="default" default-single-sign-on-management="default">
-            <infinispan-session-management name="default" cache-container="web" granularity="SESSION">
-                <primary-owner-affinity/>
-            </infinispan-session-management>
-            <infinispan-single-sign-on-management name="default" cache-container="web" cache="sso"/>
-            <infinispan-routing cache-container="web" cache="routing"/>
-        </subsystem>
         <subsystem xmlns="urn:jboss:domain:ee:4.0">
             <spec-descriptor-property-replacement>false</spec-descriptor-property-replacement>
             <concurrent>
@@ -200,11 +192,7 @@
             </pools>
             <caches>
                 <cache name="simple"/>
-                <cache name="distributable" passivation-store-ref="infinispan" aliases="passivating clustered"/>
             </caches>
-            <passivation-stores>
-                <passivation-store name="infinispan" cache-container="ejb" max-size="10000"/>
-            </passivation-stores>
             <async thread-pool-name="default"/>
             <timer-service thread-pool-name="default" default-data-store="default-file-store">
                 <data-stores>
@@ -334,58 +322,6 @@
                 </mechanism-provider-filtering-sasl-server-factory>
                 <provider-sasl-server-factory name="global"/>
             </sasl>
-        </subsystem>
-        <subsystem xmlns="urn:jboss:domain:infinispan:9.0">
-            <cache-container name="web" default-cache="repl" module="org.wildfly.clustering.web.infinispan">
-                <transport lock-timeout="60000"/>
-                <replicated-cache name="repl">
-                    <locking isolation="REPEATABLE_READ"/>
-                    <transaction mode="BATCH"/>
-                    <file-store/>
-                </replicated-cache>
-                <replicated-cache name="sso">
-                    <locking isolation="REPEATABLE_READ"/>
-                    <transaction mode="BATCH"/>
-                </replicated-cache>
-                <replicated-cache name="routing"/>
-                <distributed-cache name="dist">
-                    <locking isolation="REPEATABLE_READ"/>
-                    <transaction mode="BATCH"/>
-                    <file-store/>
-                </distributed-cache>
-            </cache-container>
-            <cache-container name="server" aliases="singleton cluster" default-cache="default" module="org.wildfly.clustering.server">
-                <transport lock-timeout="60000"/>
-                <replicated-cache name="default">
-                    <transaction mode="BATCH"/>
-                </replicated-cache>
-            </cache-container>
-            <cache-container name="ejb" aliases="sfsb" default-cache="repl" module="org.wildfly.clustering.ejb.infinispan">
-                <transport lock-timeout="60000"/>
-                <replicated-cache name="repl">
-                    <locking isolation="REPEATABLE_READ"/>
-                    <transaction mode="BATCH"/>
-                    <object-memory size="10000"/>
-                    <file-store/>
-                </replicated-cache>
-                <distributed-cache name="dist">
-                    <locking isolation="REPEATABLE_READ"/>
-                    <transaction mode="BATCH"/>
-                    <file-store/>
-                </distributed-cache>
-            </cache-container>
-            <cache-container name="hibernate" default-cache="local-query" module="org.infinispan.hibernate-cache">
-                <transport lock-timeout="60000"/>
-                <local-cache name="local-query">
-                    <object-memory size="10000"/>
-                    <expiration max-idle="100000"/>
-                </local-cache>
-                <invalidation-cache name="entity">
-                    <object-memory size="10000"/>
-                    <expiration max-idle="100000"/>
-                </invalidation-cache>
-                <replicated-cache name="timestamps"/>
-            </cache-container>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:io:3.0">
             <worker name="default"/>
