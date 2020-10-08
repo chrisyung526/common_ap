@@ -61,7 +61,7 @@
             <security-realm name="UndertowRealm">
                 <server-identities>
                     <ssl>
-                        <keystore path="/opt/eap/standalone/configuration/cert/keystore.jks" relative-to="jboss.server.config.dir" keystore-password="changeit" alias="jboss73" />
+                        <keystore path="cert/keystore.jks" relative-to="jboss.server.config.dir" keystore-password="changeit" alias="jboss73" />
                     </ssl>
                 </server-identities>
             </security-realm>
