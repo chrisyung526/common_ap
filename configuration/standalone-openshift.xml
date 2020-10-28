@@ -142,21 +142,21 @@
         <subsystem xmlns="urn:jboss:domain:bean-validation:1.0"/>
         <subsystem xmlns="urn:jboss:domain:datasources:5.0">
             <datasources>
-                <datasource jta="${DB_JTA}" jndi-name="${DB_JNDI}" pool-name="${env.DB_POOL_NAME}" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
-                    <connection-url>${DB_URL}</connection-url>
-                    <driver>${DB_DRIVER}</driver>
+                <datasource jta="${env.DB_JTA}" jndi-name="${env.DB_JNDI}" pool-name="${env.DB_POOL_NAME}" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
+                    <connection-url>${env.DB_URL}</connection-url>
+                    <driver>${env.DB_DRIVER}</driver>
                     <pool>
-                        <min-pool-size>${DB_MIN_POOL_SIZE}</min-pool-size>
-                        <max-pool-size>${DB_MAX_POOL_SIZE}</max-pool-size>
+                        <min-pool-size>${env.DB_MIN_POOL_SIZE}</min-pool-size>
+                        <max-pool-size>${env.DB_MAX_POOL_SIZE}</max-pool-size>
                     </pool>
                     <security>
-                        <user-name>${DB_USERNAME}</user-name>
-                        <password>${DB_PASSWORD}</password>
+                        <user-name>${env.DB_USERNAME}</user-name>
+                        <password>${env.DB_PASSWORD}</password>
                     </security>
                     <validation>
                       <check-valid-connection-sql>select 1</check-valid-connection-sql>
-                      <background-validation>${DB_BACKGROUND_VALIDATION}</background-validation>
-                      <background-validation-millis>${DB_BACKGROUND_VALIDATION_MILLIS}</background-validation-millis>
+                      <background-validation>${env.DB_BACKGROUND_VALIDATION}</background-validation>
+                      <background-validation-millis>${env.DB_BACKGROUND_VALIDATION_MILLIS}</background-validation-millis>
                     </validation>
                 </datasource>
                 <drivers>
