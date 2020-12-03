@@ -558,7 +558,7 @@
             <coordinator-environment statistics-enabled="${wildfly.transactions.statistics-enabled:${wildfly.statistics-enabled:false}}"/>
             <object-store path="tx-object-store" relative-to="jboss.server.data.dir"/>
         </subsystem>
-        <subsystem xmlns="urn:jboss:domain:undertow:10.0" default-server="default-server" default-virtual-host="default-host" default-servlet-container="default" default-security-domain="other" statistics-enabled="${wildfly.undertow.statistics-enabled:${wildfly.statistics-enabled:false}}" default-session-timeout="${env.SESSION_TIMEOUT}">
+        <subsystem xmlns="urn:jboss:domain:undertow:10.0" default-server="default-server" default-virtual-host="default-host" default-servlet-container="default" default-security-domain="other" statistics-enabled="${wildfly.undertow.statistics-enabled:${wildfly.statistics-enabled:false}}">
             <buffer-cache name="default"/>
             <server name="default-server">
                 <ajp-listener name="ajp" socket-binding="ajp"/>
@@ -569,7 +569,7 @@
                     <http-invoker security-realm="ApplicationRealm"/>
                 </host>
             </server>
-            <servlet-container name="default">
+            <servlet-container name="default" default-session-timeout="${env.SESSION_TIMEOUT}">
                 <jsp-config/>
                 <websockets/>
             </servlet-container>
