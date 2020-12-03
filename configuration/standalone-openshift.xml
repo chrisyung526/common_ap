@@ -560,10 +560,11 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:undertow:10.0" default-server="default-server" default-virtual-host="default-host" default-servlet-container="default" default-security-domain="other" statistics-enabled="${wildfly.undertow.statistics-enabled:${wildfly.statistics-enabled:false}}">
             <buffer-cache name="default"/>
+            <worker name="default" io-threads="${env.IO_THREADS}" task-max-threads="${env.TASK_MAX_THREADS}"></worker>
             <server name="default-server">
                 <ajp-listener name="ajp" socket-binding="ajp"/>
-                <http-listener name="default" socket-binding="http" redirect-socket="https" proxy-address-forwarding="true" enable-http2="true"/>
-                <https-listener name="https" secure="true" enabled-protocols="TLSv1.1,TLSv1.2" security-realm="CertificateRealm" socket-binding="https"/>
+                <http-listener name="default" socket-binding="http" redirect-socket="https" proxy-address-forwarding="true" enable-http2="true" max-connections="${env.HTTP_MAX_CONNECTIONS}"/>
+                <https-listener name="https" secure="true" enabled-protocols="TLSv1.1,TLSv1.2" security-realm="CertificateRealm" socket-binding="https" max-connections="${env.HTTP_MAX_CONNECTIONS}"/>
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="welcome-content"/>
                     <http-invoker security-realm="ApplicationRealm"/>
